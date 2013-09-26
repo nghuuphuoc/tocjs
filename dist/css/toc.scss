@@ -1,0 +1,82 @@
+/**
+ * TocJS v1.0 (https://github.com/nghuuphuoc/tocjs)
+ *
+ * Generate a table of contents based on headings
+ *
+ * @author      Nguyen Huu Phuoc <phuoc@huuphuoc.me>
+ * @copyright   (c) 2013 Nguyen Huu Phuoc
+ * @license     MIT
+ */
+
+// Variable
+$tocPaddingLevel: 25px;
+
+// Table of content
+.toc {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+
+  // Used when you want the page to scroll to the table of content
+  // For using with Bootstrap 3
+  &.affix {
+    position: static;
+  }
+
+  // For using with Bootstrap 3
+  .nav > .active {
+    > a,
+    &:hover > a,
+    :focus > a {
+      border-right: 2px solid #428bca;
+    }
+  }
+
+  // Second level
+  .nav .nav {
+    /*
+     * If you want to hide the sub UL elements, then add the following line
+     * display: none;
+     */
+    display: block;
+    margin-bottom: 8px;
+    > li > a {
+      font-size: 90%;
+    }
+  }
+
+  // Heading (Table of Contents)
+  .toc-heading {
+    color: #333333;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #dddddd;
+  }
+
+  // Children links
+  .toc-link-2 {
+    padding-left: $tocPaddingLevel;
+  }
+  .toc-link-3 {
+    padding-left: $tocPaddingLevel * 2;
+  }
+  .toc-link-4 {
+    padding-left: $tocPaddingLevel * 3;
+  }
+  .toc-link-5 {
+    padding-left: $tocPaddingLevel * 4;
+  }
+  .toc-link-6 {
+    padding-left: $tocPaddingLevel * 5;
+  }
+}
+
+// Responsive
+@media screen and (min-width: 992px) and (min-height: 700px) {
+  .toc {
+    &.affix {
+      position: fixed;
+    }
+    .nav > .active > ul {
+      display: block;
+    }
+  }
+}

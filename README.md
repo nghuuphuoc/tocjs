@@ -48,10 +48,36 @@ ulClass         | string | toc-ul                 | The CSS class which will be 
 prefixLinkClass | string | toc-link-              | This option will be added as a prefix to CSS class of all generated ```a``` elements. The suffix is level of associating heading (1 to 6)
 heading         | string | null                   | The _Table of Contents_ heading label placed at the top. This heading is not shown by default.
 
+## Build
+
+TocJS uses [grunt](http://gruntjs.com) for building process.
+The process includes the following steps:
+
+* Copy entire ```src/css``` and ```src/js``` directories to ```dist``` directory
+* Compress the CSS files in ```src/css``` and save to ```dist/css```
+* Compress the ```src/js/toc.js``` and save to ```dist/js/toc.min.js```
+
+Grunt helps us simplify the process.
+
+First, you have to install the dependencies defined in ```package.json``` (the following commands might need the administrator permission to run):
+
+```
+$ cd <TocJs_Directory>
+$ npm install grunt --save-dev
+$ npm install grunt-contrib-copy --save-dev
+$ npm install grunt-contrib-cssmin --save-dev
+$ npm install grunt-contrib-uglify --save-dev
+```
+
+Then, run the command below from the TocJS directory:
+
+```
+$ grunt
+```
+
 ## Author
 
-* [phuoc@huuphuoc.me](mailto: phuoc@huuphuoc.me)
-* [@nghuuphuoc](http://twitter.com/nghuuphuoc)
+**Nguyen Huu Phuoc** ([Email](mailto: phuoc@huuphuoc.me) / [Twitter](http://twitter.com/nghuuphuoc) / [Github](http://github.com/nghuuphuoc))
 
 ## License
 
