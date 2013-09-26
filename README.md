@@ -37,7 +37,7 @@ $(document).ready(function() {
 </script>
 ```
 
-The plugin provides the following options (in the format of ```name``` (type): ```default value```):
+The plugin provides the following options:
 
 Name            | Type   | Default                | Description
 ----------------|--------|------------------------|------------
@@ -74,6 +74,31 @@ Then, run the command below from the TocJS directory:
 ```
 $ grunt
 ```
+
+## Customize look and feel
+
+Assume that ```<div id="toc"></div>``` is the element containing the table of contents.
+By default, TocJS generates the following markup:
+
+```html
+<div id="toc" class="toc">
+    <ul class="toc-ul-root toc-ul">
+        <li class="toc-heading"><a href="#">Table of Contents</a></li>
+
+        <li><a href="#" class="toc-link-1">h1 heading</a></li>
+        <li>
+            <a href="#" class="toc-link-1">h1 heading</a>
+            <ul class="toc-ul">
+                <li><a href="#" class="toc-link-2">h2 heading</a></li>
+                ...
+            </ul>
+        </li>
+    </ul>
+</div>
+```
+
+To customize the styles of table of contents, you can customize the ```toc```, ```toc-ul-root```, ```toc-ul```, ```toc-heading```, and ```toc-link-[1..6]``` classes.
+Or create your own CSS classes and set them using the TocJS options which are described in the above section.
 
 ## Author
 
