@@ -11,8 +11,7 @@
 (function($) {
     var Toc = function(element, options) {
         this.$element = $(element);
-        this.options = $.extend({}, Toc.DEFAULT_OPTIONS, options);
-
+        this.options  = $.extend({}, Toc.DEFAULT_OPTIONS, options);
         this.headings = [];
 
         this.$element.addClass(this.options.elementClass);
@@ -36,7 +35,7 @@
     Toc.DEFAULT_OPTIONS = {
         selector: 'h1, h2, h3, h4, h5, h6',
         elementClass: 'toc',
-        rootUlClass: '',
+        rootUlClass: 'toc-ul-root',
         ulClass: 'toc-ul',
         prefixLinkClass: 'toc-link-',
         heading: null
