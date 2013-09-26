@@ -44,3 +44,5 @@
     position: fixed; }
   .toc .nav > .active > ul {
     display: block; } }
+.toc .nav .nav {
+  display: none; }

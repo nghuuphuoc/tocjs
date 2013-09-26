@@ -3,12 +3,10 @@
 <head>
     <title>TocJS demo</title>
 
-    <link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../src/toc.css" />
+    <link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../src/toc-scroll.css" />
 
-    <!--[if lt IE 9]><script type="text/javascript" src="../vendor/jquery/jquery-1.10.2.min.js"></script><![endif]-->
-    <!--[if gte IE 9]><!--><script type="text/javascript" src="../vendor/jquery/jquery-2.0.3.min.js"></script><!--<![endif]-->
-
+    <script type="text/javascript" src="../vendor/jquery/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../vendor/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../src/toc.js"></script>
 </head>
@@ -106,7 +104,7 @@ $(document).ready(function() {
 
     // Generate table of content
     $('#toc').toc({
-        rootUlClass: 'toc',
+        elementClass: 'toc',
         ulClass: 'nav',
         heading: 'Table of Contents'
     });

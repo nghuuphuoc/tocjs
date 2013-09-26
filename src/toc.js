@@ -15,6 +15,8 @@
 
         this.headings = [];
 
+        this.$element.addClass(this.options.elementClass);
+
         var that = this;
         $(this.options.selector).each(function(index, node) {
             $(node).data('tagNumber', parseInt(node.tagName.substring(1)))	// 1...6
@@ -33,10 +35,11 @@
      */
     Toc.DEFAULT_OPTIONS = {
         selector: 'h1, h2, h3, h4, h5, h6',
+        elementClass: 'toc',
         rootUlClass: '',
-        ulClass: '',
+        ulClass: 'toc-ul',
         prefixLinkClass: 'toc-link-',
-        heading: 'Table of Contents'
+        heading: null
     };
 
     /**

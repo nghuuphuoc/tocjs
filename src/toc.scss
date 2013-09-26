@@ -37,7 +37,7 @@ $tocPaddingLevel: 25px;
      * If you want to hide the sub UL elements, then add the following line
      * display: none;
      */
-    display: none;
+    display: block;
     margin-bottom: 8px;
     > li > a {
       font-size: 90%;
