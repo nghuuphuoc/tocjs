@@ -41,7 +41,7 @@
         heading: null,
 
         /**
-         * Define the numbering formats for each heading level
+         * Define the indexing formats for each heading level
          *  indexingFormats: {
          *      headingLevel: formatter
          *  }
@@ -51,6 +51,8 @@
          *  - 'number': The headings will be prefixed with number (1, 2, 3, ...)
          *  - 'upperAlphabet': Prefix headings with uppercase alphabetical characters (A, B, C, ...)
          *  - 'lowerAlphabet': Prefix headings with lowercase alphabetical characters (a, b, c, ...)
+         *  - 'upperRoman': Prefix headings with uppercase Roman numerals (I, II, III, ...)
+         *  - 'lowerRoman': Prefix headings with lowercase Roman numerals (i, ii, iii, ...)
          *
          *  You can define different formatter for each heading level:
          *  indexingFormats: {
@@ -252,9 +254,37 @@
             case 'number':
                 return number;
 
+            case 'upperRoman':
+                return this.convertToRomanNumeral(number);
+
+            case 'lowerRoman':
+                return this.convertToRomanNumeral(number).toLowerCase();
+
             default:
-                return '';
+                return '_';
         }
+    };
+
+    /**
+     * Convert a number to Roman numeral
+     *
+     * @param number
+     * @return string
+     */
+    Toc.prototype.convertToRomanNumeral = function(number) {
+        if (!+number) {
+            return '';
+        }
+        var digits = String(+number).split(''),
+            key    = ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM',
+                      '', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC',
+                      '', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'],
+            roman  = '',
+            i      = 3;
+        while (i--) {
+            roman = (key[+digits.pop() + (i * 10)] || '') + roman;
+        }
+        return Array(+digits.join('') + 1).join('M') + roman;
     };
 
     // Plugin definition
