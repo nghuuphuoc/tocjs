@@ -19,8 +19,8 @@
         var that = this;
         $(this.options.selector).each(function(index, node) {
             $(node).data('tagNumber', parseInt(node.tagName.substring(1)))	// 1...6
-                .data('index', 1)
-                .data('numbering', '1');
+                   .data('index', 1)
+                   .data('numbering', '1');
             that.headings.push(node);
         });
 
@@ -38,7 +38,28 @@
         rootUlClass: 'toc-ul-root',
         ulClass: 'toc-ul',
         prefixLinkClass: 'toc-link-',
-        heading: null
+        heading: null,
+
+        /**
+         * Define the numbering formats for each heading level
+         *  indexingFormats: {
+         *      headingLevel: formatter
+         *  }
+         *
+         *  headingLevel can be 'h1', 'h2', ..., 'h6'
+         *  formatter can be:
+         *  - 'number': The headings will be prefixed with number (1, 2, 3, ...)
+         *  - 'upperAlphabet': Prefix headings with uppercase alphabetical characters (A, B, C, ...)
+         *  - 'lowerAlphabet': Prefix headings with lowercase alphabetical characters (a, b, c, ...)
+         *
+         *  You can define different formatter for each heading level:
+         *  indexingFormats: {
+         *      'h1': 'upperAlphabet',
+         *      'h2': 'number',
+         *      'h3': 'lowerAlphabet'
+         *  }
+         */
+        indexingFormats: {}
     };
 
     /**
@@ -138,7 +159,7 @@
             });
 
             if (numbering.length == 1) {
-                numberingMap[numbering.join('.')] = $('<li/>').wrapInner($a).appendTo($toc);
+                var $li = $('<li/>').wrapInner($a).appendTo($toc);
             } else {
                 var last = numbering.pop(),
                     n    = numbering.join('.'),
@@ -147,8 +168,11 @@
                     $li  = $('<li/>').wrapInner($a).appendTo($ul);
 
                 numbering.push(last);
-                numberingMap[numbering.join('.')] = $li;
             }
+
+            numberingMap[numbering.join('.')] = $li;
+
+            this.prependIndexing(i, $a);
         }
     };
 
@@ -160,16 +184,17 @@
      */
     Toc.prototype.generateHeadingId = function(heading) {
         if (!$(heading).attr('id')) {
-            var id = $(heading).text().toLowerCase()
-                .replace(/\s+|\/|\\/g, '-')
-                .replace(/á|à|ạ|ả|ã|ă|ắ|ằ|ặ|ẳ|ẵ|â|ấ|ầ|ậ|ẩ|ẫ|ä/g, 'a')
-                .replace(/đ/g, 'd')
-                .replace(/é|è|ẹ|ẻ|ẽ|ê|ế|ề|ệ|ể|ễ/g, 'e')
-                .replace(/í|ì|ị|ỉ|ĩ/g, 'i')
-                .replace(/ó|ò|ọ|ỏ|õ|ô|ố|ồ|ộ|ổ|ỗ|ơ|ớ|ờ|ợ|ở|ỡ/g, 'o')
-                .replace(/ú|ù|ụ|ủ|ũ|ư|ứ|ừ|ự|ử|ữ/g, 'u')
-                .replace(/ý|ỳ|ỵ|ỷ|ỹ/g, 'y')
-                .replace(/[^a-z0-9-]/g, '');
+            var id = $(heading).text()
+                               .toLowerCase()
+                               .replace(/\s+|\/|\\/g, '-')
+                               .replace(/á|à|ạ|ả|ã|ă|ắ|ằ|ặ|ẳ|ẵ|â|ấ|ầ|ậ|ẩ|ẫ|ä/g, 'a')
+                               .replace(/đ/g, 'd')
+                               .replace(/é|è|ẹ|ẻ|ẽ|ê|ế|ề|ệ|ể|ễ/g, 'e')
+                               .replace(/í|ì|ị|ỉ|ĩ/g, 'i')
+                               .replace(/ó|ò|ọ|ỏ|õ|ô|ố|ồ|ộ|ổ|ỗ|ơ|ớ|ờ|ợ|ở|ỡ/g, 'o')
+                               .replace(/ú|ù|ụ|ủ|ũ|ư|ứ|ừ|ự|ử|ữ/g, 'u')
+                               .replace(/ý|ỳ|ỵ|ỷ|ỹ/g, 'y')
+                               .replace(/[^a-z0-9-]/g, '');
 
             var found = true, counter = 0;
             while (found) {
@@ -186,6 +211,50 @@
         }
 
         return $(heading).attr('id');
+    };
+
+    /**
+     * Prepend indexing string to link/heading
+     *
+     * @param index
+     * @param linkElement
+     */
+    Toc.prototype.prependIndexing = function(index, linkElement) {
+        var heading   = this.headings[index],
+            tagNumber = parseInt($(heading).data('tagNumber'));
+        if (!this.options.indexingFormats['h' + tagNumber]) {
+            return;
+        }
+        var numbering = String($(heading).data('numbering')).split('.'), n = numbering.length, converted = [], j = 0;
+        for (var i = 0; i < n; i++) {
+            j = i + (tagNumber - n);
+            if (this.options.indexingFormats['h' + j]) {
+                converted.push(this.convertIndexing(numbering[i], this.options.indexingFormats['h' + j]));
+            }
+        }
+
+        if (converted.length > 0) {
+            var text = converted.join('. ') + '. ';
+            $(linkElement).prepend(text);
+            $(heading).prepend(text);
+        }
+    };
+
+    Toc.prototype.convertIndexing = function(number, type) {
+        var lowerChars = 'abcdefghijklmnopqrstuvwxyz', upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', length = lowerChars.length;
+        switch (type) {
+            case 'upperAlphabet':
+                return (number > length) ? upperChars[number % length - 1] : upperChars[number - 1];
+
+            case 'lowerAlphabet':
+                return (number > length) ? lowerChars[number % length - 1] : lowerChars[number - 1];
+
+            case 'number':
+                return number;
+
+            default:
+                return '';
+        }
     };
 
     // Plugin definition

@@ -7,9 +7,15 @@ TocJS is a jQuery plugin for generating table of contents based on headings.
 * [Sample demo](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/sample.html)
 * [Style with Bootstrap](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/style.html)
 * [Scroll automatically](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/scroll.html)
+* [Number indexing](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/number-indexing.html) (_v1.1.0-beta_)
+* [More indexing styles](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/more-indexing.html) (_v1.1.0-beta_)
 
 ## Features
 
+v1.1.0-beta:
+* Allow to define different format for each heading level
+
+v1.0.0 (2013/09/26):
 * Generate anchor link for heading
 * Automatically scroll to with the help of [Bootstrap ScrollSpy](http://getbootstrap.com/javascript/#scrollspy) plugin
 * Easy to customize look and feel
