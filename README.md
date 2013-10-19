@@ -7,20 +7,18 @@ TocJS is a jQuery plugin for generating table of contents based on headings.
 * [Sample demo](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/sample.html)
 * [Style with Bootstrap](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/style.html)
 * [Scroll automatically](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/scroll.html)
-* [Number indexing](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/number-indexing.html) (v1.1.0-beta)
-* [More indexing styles](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/more-indexing.html) (v1.1.0-beta)
+* [Number indexing](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/number-indexing.html)
+* [More indexing styles](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/more-indexing.html)
 
 ## Features
 
-v1.1.0-beta:
 * Allow to define different format for each heading level
-
-v1.0.0 (2013/09/26):
 * Generate anchor link for heading
 * Automatically scroll to with the help of [Bootstrap ScrollSpy](http://getbootstrap.com/javascript/#scrollspy) plugin
+* The table of contents are generated using nested ```ul``` elements
 * Easy to customize look and feel
 
-## Documentation
+## Usage
 
 By default, TocJS generates a table of contents based on the headings (```h1``` to ```h6```) found on page.
 
@@ -45,14 +43,59 @@ $(document).ready(function() {
 
 The plugin provides the following options:
 
-Name            | Type   | Default                | Description
-----------------|--------|------------------------|------------
-selector        | string | h1, h2, h3, h4, h5, h6 | Indicates which elements will be found and included in the table of contents
-elementClass    | string | toc                    | The CSS class which will be added to root element
-rootUlClass     | string | toc-ul-root            | The CSS class which will be added to the root generated ```ul``` element
-ulClass         | string | toc-ul                 | The CSS class which will be added to all generated ```ul``` elements (including the root and sub ones)
-prefixLinkClass | string | toc-link-              | This option will be added as a prefix to CSS class of all generated ```a``` elements. The suffix is level of associating heading (1 to 6)
-heading         | string | null                   | The _Table of Contents_ heading label placed at the top. This heading is not shown by default.
+* ```selector``` (default value is _h1, h2, h3, h4, h5, h6_) Indicates which elements will be found and included in the table of contents
+
+* ```elementClass``` (_toc_): The CSS class which will be added to root element
+
+* ```rootUlClass``` (_toc-ul-root_): The CSS class which will be added to the root generated ```ul``` element
+
+* ```ulClass``` (_toc-ul_): The CSS class which will be added to all generated ```ul``` elements (including the root and sub ones)
+
+* ```prefixLinkClass``` (_toc-link-_): This option will be added as a prefix to CSS class of all generated ```a``` elements. The suffix is level of associating heading (1 to 6)
+
+* ```heading``` (_null_): The _Table of Contents_ heading label placed at the top. This heading is not shown by default.
+
+* ```indexingFormats``` (_null_): Define the indexing formats for each heading level
+
+```
+$(element).toc({
+    indexingFormats: {
+        <headingLevel>: <formatter>
+    }
+});
+```
+
+```<headingLevel>``` can be 'h1', 'h2', ..., 'h6'
+
+```<formatter>``` is a string and can be:
+
+Value                 | Description
+----------------------|------------
+```'number'```        | The headings will be prefixed with number (1, 2, 3, ...)
+```'upperAlphabet'``` | Prefix headings with uppercase alphabetical characters (A, B, C, ...)
+```'lowerAlphabet'``` | Prefix headings with lowercase alphabetical characters (a, b, c, ...)
+```'upperRoman'```    | Prefix headings with uppercase Roman numerals (I, II, III, ...)
+```'lowerRoman'```    | Prefix headings with lowercase Roman numerals (i, ii, iii, ...)
+
+You can define different formatter for each heading level, for example:
+
+```javascript
+$(element).toc({
+    indexingFormats: {
+        'h1': 'upperAlphabet',
+        'h2': 'number',
+         'h3': 'lowerAlphabet'
+    }
+});
+```
+
+If you want to set indexing formats for all levels:
+
+```javascript
+$(element).toc({
+    indexingFormats: <formatter>
+});
+```
 
 ## Customize the look and feel
 
@@ -108,7 +151,7 @@ $ grunt
 
 ## Author
 
-**Nguyen Huu Phuoc** ([Email](mailto: phuoc@huuphuoc.me) / [Twitter](http://twitter.com/nghuuphuoc) / [Github](http://github.com/nghuuphuoc))
+Nguyen Huu Phuoc ([Email](mailto: phuoc@huuphuoc.me) / [Twitter](http://twitter.com/nghuuphuoc) / [Github](http://github.com/nghuuphuoc))
 
 ## License
 

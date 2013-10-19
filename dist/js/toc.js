@@ -1,5 +1,5 @@
 /**
- * TocJS v1.0.0 (https://github.com/nghuuphuoc/tocjs)
+ * TocJS (https://github.com/nghuuphuoc/tocjs)
  *
  * Generate a table of contents based on headings
  *
@@ -41,7 +41,7 @@
         heading: null,
 
         /**
-         * Define the numbering formats for each heading level
+         * Define the indexing formats for each heading level
          *  indexingFormats: {
          *      headingLevel: formatter
          *  }
@@ -51,6 +51,8 @@
          *  - 'number': The headings will be prefixed with number (1, 2, 3, ...)
          *  - 'upperAlphabet': Prefix headings with uppercase alphabetical characters (A, B, C, ...)
          *  - 'lowerAlphabet': Prefix headings with lowercase alphabetical characters (a, b, c, ...)
+         *  - 'upperRoman': Prefix headings with uppercase Roman numerals (I, II, III, ...)
+         *  - 'lowerRoman': Prefix headings with lowercase Roman numerals (i, ii, iii, ...)
          *
          *  You can define different formatter for each heading level:
          *  indexingFormats: {
@@ -58,8 +60,11 @@
          *      'h2': 'number',
          *      'h3': 'lowerAlphabet'
          *  }
+         *
+         * If you want to set indexing formats for all levels:
+         *  indexingFormats: formatter,
          */
-        indexingFormats: {}
+        indexingFormats: null
     };
 
     /**
@@ -221,15 +226,17 @@
      */
     Toc.prototype.prependIndexing = function(index, linkElement) {
         var heading   = this.headings[index],
-            tagNumber = parseInt($(heading).data('tagNumber'));
-        if (!this.options.indexingFormats['h' + tagNumber]) {
+            tagNumber = parseInt($(heading).data('tagNumber')),
+            format    = this.getIndexingFormat(tagNumber);
+        if (null == format) {
             return;
         }
         var numbering = String($(heading).data('numbering')).split('.'), n = numbering.length, converted = [], j = 0;
         for (var i = 0; i < n; i++) {
-            j = i + (tagNumber - n);
-            if (this.options.indexingFormats['h' + j]) {
-                converted.push(this.convertIndexing(numbering[i], this.options.indexingFormats['h' + j]));
+            j      = i + (tagNumber - n);
+            format = this.getIndexingFormat(j);
+            if (format) {
+                converted.push(this.convertIndexing(numbering[i], format));
             }
         }
 
@@ -238,6 +245,22 @@
             $(linkElement).prepend(text);
             $(heading).prepend(text);
         }
+    };
+
+    /**
+     * Get the indexing format for given heading level
+     *
+     * @param {Int} level Can be 1, 2, ..., 6
+     * @return {String} Can be null or one of 'number', 'lowerAlphabet', 'upperAlphabet', 'lowerRoman', 'upperRoman'
+     */
+    Toc.prototype.getIndexingFormat = function(level) {
+        if ('object' == typeof this.options.indexingFormats) {
+            return this.options.indexingFormats['h' + level] ? this.options.indexingFormats['h' + level] : null;
+        }
+        if ('string' == typeof this.options.indexingFormats) {
+            return this.options.indexingFormats;
+        }
+        return null;
     };
 
     Toc.prototype.convertIndexing = function(number, type) {
@@ -252,9 +275,37 @@
             case 'number':
                 return number;
 
+            case 'upperRoman':
+                return this.convertToRomanNumeral(number);
+
+            case 'lowerRoman':
+                return this.convertToRomanNumeral(number).toLowerCase();
+
             default:
-                return '';
+                return '_';
         }
+    };
+
+    /**
+     * Convert a number to Roman numeral
+     *
+     * @param number
+     * @return string
+     */
+    Toc.prototype.convertToRomanNumeral = function(number) {
+        if (!+number) {
+            return '';
+        }
+        var digits = String(+number).split(''),
+            key    = ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM',
+                      '', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC',
+                      '', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'],
+            roman  = '',
+            i      = 3;
+        while (i--) {
+            roman = (key[+digits.pop() + (i * 10)] || '') + roman;
+        }
+        return Array(+digits.join('') + 1).join('M') + roman;
     };
 
     // Plugin definition

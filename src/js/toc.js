@@ -1,5 +1,5 @@
 /**
- * TocJS v1.0.0 (https://github.com/nghuuphuoc/tocjs)
+ * TocJS (https://github.com/nghuuphuoc/tocjs)
  *
  * Generate a table of contents based on headings
  *
@@ -60,8 +60,11 @@
          *      'h2': 'number',
          *      'h3': 'lowerAlphabet'
          *  }
+         *
+         * If you want to set indexing formats for all levels:
+         *  indexingFormats: formatter,
          */
-        indexingFormats: {}
+        indexingFormats: null
     };
 
     /**
@@ -223,15 +226,17 @@
      */
     Toc.prototype.prependIndexing = function(index, linkElement) {
         var heading   = this.headings[index],
-            tagNumber = parseInt($(heading).data('tagNumber'));
-        if (!this.options.indexingFormats['h' + tagNumber]) {
+            tagNumber = parseInt($(heading).data('tagNumber')),
+            format    = this.getIndexingFormat(tagNumber);
+        if (null == format) {
             return;
         }
         var numbering = String($(heading).data('numbering')).split('.'), n = numbering.length, converted = [], j = 0;
         for (var i = 0; i < n; i++) {
-            j = i + (tagNumber - n);
-            if (this.options.indexingFormats['h' + j]) {
-                converted.push(this.convertIndexing(numbering[i], this.options.indexingFormats['h' + j]));
+            j      = i + (tagNumber - n);
+            format = this.getIndexingFormat(j);
+            if (format) {
+                converted.push(this.convertIndexing(numbering[i], format));
             }
         }
 
@@ -240,6 +245,22 @@
             $(linkElement).prepend(text);
             $(heading).prepend(text);
         }
+    };
+
+    /**
+     * Get the indexing format for given heading level
+     *
+     * @param {Int} level Can be 1, 2, ..., 6
+     * @return {String} Can be null or one of 'number', 'lowerAlphabet', 'upperAlphabet', 'lowerRoman', 'upperRoman'
+     */
+    Toc.prototype.getIndexingFormat = function(level) {
+        if ('object' == typeof this.options.indexingFormats) {
+            return this.options.indexingFormats['h' + level] ? this.options.indexingFormats['h' + level] : null;
+        }
+        if ('string' == typeof this.options.indexingFormats) {
+            return this.options.indexingFormats;
+        }
+        return null;
     };
 
     Toc.prototype.convertIndexing = function(number, type) {
