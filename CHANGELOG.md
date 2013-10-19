@@ -1,6 +1,6 @@
 # Change Log
 
-v1.1.0
+v1.1.0 (2013/10/19)
 * Allow to define different format for each heading level
 
 v1.0.0 (2013/09/26)
