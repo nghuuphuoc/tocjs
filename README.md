@@ -18,6 +18,14 @@ TocJS is a jQuery plugin for generating table of contents based on headings.
 * The table of contents are generated using nested ```ul``` elements
 * Easy to customize look and feel
 
+## Download
+
+You can download TocJS from the [Github repository](https://github.com/nghuuphuoc/tocjs) directly or use [bower](http://bower.io):
+
+```bash
+$ bower install tocjs
+```
+
 ## Usage
 
 By default, TocJS generates a table of contents based on the headings (```h1``` to ```h6```) found on page.
@@ -43,24 +51,18 @@ $(document).ready(function() {
 
 The plugin provides the following options:
 
-* ```selector``` (default value is _h1, h2, h3, h4, h5, h6_) Indicates which elements will be found and included in the table of contents
-
+* ```selector``` (default value is _h1, h2, h3, h4, h5, h6_): Indicates which elements will be found and included in the table of contents
 * ```elementClass``` (_toc_): The CSS class which will be added to root element
-
 * ```rootUlClass``` (_toc-ul-root_): The CSS class which will be added to the root generated ```ul``` element
-
 * ```ulClass``` (_toc-ul_): The CSS class which will be added to all generated ```ul``` elements (including the root and sub ones)
-
 * ```prefixLinkClass``` (_toc-link-_): This option will be added as a prefix to CSS class of all generated ```a``` elements. The suffix is level of associating heading (1 to 6)
-
 * ```heading``` (_null_): The _Table of Contents_ heading label placed at the top. This heading is not shown by default.
-
 * ```indexingFormats``` (_null_): Define the indexing formats for each heading level
 
-```
+```javascript
 $(element).toc({
     indexingFormats: {
-        <headingLevel>: <formatter>
+        <headingLevel>: '<formatter>'
     }
 });
 ```
@@ -69,13 +71,13 @@ $(element).toc({
 
 ```<formatter>``` is a string and can be:
 
-Value                 | Description
-----------------------|------------
-```'number'```        | The headings will be prefixed with number (1, 2, 3, ...)
-```'upperAlphabet'``` | Prefix headings with uppercase alphabetical characters (A, B, C, ...)
-```'lowerAlphabet'``` | Prefix headings with lowercase alphabetical characters (a, b, c, ...)
-```'upperRoman'```    | Prefix headings with uppercase Roman numerals (I, II, III, ...)
-```'lowerRoman'```    | Prefix headings with lowercase Roman numerals (i, ii, iii, ...)
+Value               | Description
+--------------------|------------
+```number```        | The headings will be prefixed with number (1, 2, 3, ...)
+```upperAlphabet``` | Prefix headings with uppercase alphabetical characters (A, B, C, ...)
+```lowerAlphabet``` | Prefix headings with lowercase alphabetical characters (a, b, c, ...)
+```upperRoman```    | Prefix headings with uppercase Roman numerals (I, II, III, ...)
+```lowerRoman```    | Prefix headings with lowercase Roman numerals (i, ii, iii, ...)
 
 You can define different formatter for each heading level, for example:
 
@@ -84,7 +86,7 @@ $(element).toc({
     indexingFormats: {
         'h1': 'upperAlphabet',
         'h2': 'number',
-         'h3': 'lowerAlphabet'
+        'h3': 'lowerAlphabet'
     }
 });
 ```
@@ -93,7 +95,7 @@ If you want to set indexing formats for all levels:
 
 ```javascript
 $(element).toc({
-    indexingFormats: <formatter>
+    indexingFormats: '<formatter>'
 });
 ```
 
