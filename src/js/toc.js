@@ -64,7 +64,7 @@
          * If you want to set indexing formats for all levels:
          *  indexingFormats: formatter,
          */
-        indexingFormats: null
+        indexingFormats: {}
     };
 
     Toc.prototype = {

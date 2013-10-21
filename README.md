@@ -2,6 +2,8 @@
 
 TocJS is a jQuery plugin for generating table of contents based on headings.
 
+![TocJS screen shot](img/screenshot.png)
+
 ## Demo
 
 * [Sample demo](https://rawgithub.com/nghuuphuoc/tocjs/master/demo/sample.html)
@@ -57,7 +59,7 @@ The plugin provides the following options:
 * ```ulClass``` (_toc-ul_): The CSS class which will be added to all generated ```ul``` elements (including the root and sub ones)
 * ```prefixLinkClass``` (_toc-link-_): This option will be added as a prefix to CSS class of all generated ```a``` elements. The suffix is level of associating heading (1 to 6)
 * ```heading``` (_null_): The _Table of Contents_ heading label placed at the top. This heading is not shown by default.
-* ```indexingFormats``` (_null_): Define the indexing formats for each heading level
+* ```indexingFormats``` (_{}_): Define the indexing formats for each heading level
 
 ```javascript
 $(element).toc({
