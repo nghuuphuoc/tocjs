@@ -73,13 +73,13 @@ $(element).toc({
 
 ```<formatter>``` is a string and can be:
 
-Value               | Description
---------------------|------------
-```number```        | The headings will be prefixed with number (1, 2, 3, ...)
-```upperAlphabet``` | Prefix headings with uppercase alphabetical characters (A, B, C, ...)
-```lowerAlphabet``` | Prefix headings with lowercase alphabetical characters (a, b, c, ...)
-```upperRoman```    | Prefix headings with uppercase Roman numerals (I, II, III, ...)
-```lowerRoman```    | Prefix headings with lowercase Roman numerals (i, ii, iii, ...)
+Value                        | Description
+-----------------------------|------------
+```number``` or ```1```      | The headings will be prefixed with number (1, 2, 3, ...)
+```upperAlphabet```, ```A``` | Prefix headings with uppercase alphabetical characters (A, B, C, ...)
+```lowerAlphabet```, ```a``` | Prefix headings with lowercase alphabetical characters (a, b, c, ...)
+```upperRoman```, ```I```    | Prefix headings with uppercase Roman numerals (I, II, III, ...)
+```lowerRoman```, ```i```    | Prefix headings with lowercase Roman numerals (i, ii, iii, ...)
 
 You can define different formatter for each heading level, for example:
 
@@ -91,12 +91,25 @@ $(element).toc({
         'h3': 'lowerAlphabet'
     }
 });
+
+$(element).toc({
+    indexingFormats: {
+        'h1': 'A',
+        'h2': '1',
+        'h3': 'a'
+    }
+});
+
+$(element).toc({
+    indexingFormats: 'A1a'
+});
 ```
 
 If you want to set indexing formats for all levels:
 
 ```javascript
 $(element).toc({
+    // <formatter> can be 'number', 'upperAlphabet', 'lowerAlphabet', 'upperRoman', 'lowerRoman'
     indexingFormats: '<formatter>'
 });
 ```
@@ -155,10 +168,32 @@ $ grunt
 
 ## Author
 
-Nguyen Huu Phuoc ([Email](mailto: phuoc@huuphuoc.me) / [Twitter](http://twitter.com/nghuuphuoc) / [Github](http://github.com/nghuuphuoc))
+Nguyen Huu Phuoc, aka @nghuuphuoc
+
+* [http://github.com/nghuuphuoc](http://github.com/nghuuphuoc)
+* [http://twitter.com/nghuuphuoc](http://twitter.com/nghuuphuoc)
 
 ## License
 
-Copyright (c) 2013 Nguyen Huu Phuoc
+```
+The MIT License (MIT)
 
-TocJS is licensed under the MIT license.
+Copyright (c) 2013 - 2014 Nguyen Huu Phuoc
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```

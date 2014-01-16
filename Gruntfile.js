@@ -10,8 +10,8 @@ module.exports = function(grunt) {
             ' *',
             ' * Generate a table of contents based on headings',
             ' *',
-            ' * @author      Nguyen Huu Phuoc <phuoc@huuphuoc.me>',
-            ' * @copyright   (c) 2013 Nguyen Huu Phuoc',
+            ' * @author      http://twitter.com/nghuuphuoc',
+            ' * @copyright   (c) 2013 - 2014 Nguyen Huu Phuoc',
             ' * @license     MIT',
             ' */\n\n'
         ].join('\n'),

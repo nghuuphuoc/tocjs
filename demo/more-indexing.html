@@ -93,7 +93,7 @@
 
     <!-- footer: -->
     <div style="border-top: 1px solid #ccc;; padding: 10px 0 20px 0;">
-        <div class="container">Copyright (c) 2013 <a href="http://twitter.com/nghuuphuoc">@nghuuphuoc</a></div>
+        <div class="container">Copyright (c) 2013 - 2014 <a href="http://twitter.com/nghuuphuoc">@nghuuphuoc</a></div>
     </div>
     <!-- :footer -->
 
@@ -103,6 +103,7 @@ $(document).ready(function() {
     $('#toc').width($('#toc').parents().width());
 
     // Generate table of content
+    /*
     $('#toc').toc({
         elementClass: 'toc',
         ulClass: 'nav',
@@ -114,6 +115,28 @@ $(document).ready(function() {
             'h4': 'lowerAlphabet',
             'h5': 'number'
         }
+    });
+    */
+
+    /*
+    $('#toc').toc({
+        elementClass: 'toc',
+        ulClass: 'nav',
+        heading: 'Table of Contents',
+        indexingFormats: {
+            'h1': 'I',
+            'h2': '1',
+            'h3': 'A',
+            'h4': 'a'
+        }
+    });
+    */
+
+    $('#toc').toc({
+        elementClass: 'toc',
+        ulClass: 'nav',
+        heading: 'Table of Contents',
+        indexingFormats: 'I1Aa'
     });
 
     // Scroll to the table of content section when user scroll the mouse

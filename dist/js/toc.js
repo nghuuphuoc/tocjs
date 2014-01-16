@@ -3,8 +3,8 @@
  *
  * Generate a table of contents based on headings
  *
- * @author      Nguyen Huu Phuoc <phuoc@huuphuoc.me>
- * @copyright   (c) 2013 Nguyen Huu Phuoc
+ * @author      http://twitter.com/nghuuphuoc
+ * @copyright   (c) 2013 - 2014 Nguyen Huu Phuoc
  * @license     MIT
  */
 
@@ -18,7 +18,8 @@
 
         var that = this;
         $(this.options.selector).each(function(index, node) {
-            $(node).data('tagNumber', parseInt(node.tagName.substring(1)))	// 1...6
+            $(node)
+                .data('tagNumber', parseInt(node.tagName.substring(1)))	    // 1...6
                 .data('index', 1)
                 .data('numbering', '1');
             that.headings.push(node);
@@ -48,21 +49,26 @@
          *
          *  headingLevel can be 'h1', 'h2', ..., 'h6'
          *  formatter can be:
-         *  - 'number': The headings will be prefixed with number (1, 2, 3, ...)
-         *  - 'upperAlphabet': Prefix headings with uppercase alphabetical characters (A, B, C, ...)
-         *  - 'lowerAlphabet': Prefix headings with lowercase alphabetical characters (a, b, c, ...)
-         *  - 'upperRoman': Prefix headings with uppercase Roman numerals (I, II, III, ...)
-         *  - 'lowerRoman': Prefix headings with lowercase Roman numerals (i, ii, iii, ...)
+         *  - 'number', '1':        The headings will be prefixed with number (1, 2, 3, ...)
+         *  - 'upperAlphabet', 'A': Prefix headings with uppercase alphabetical characters (A, B, C, ...)
+         *  - 'lowerAlphabet', 'a': Prefix headings with lowercase alphabetical characters (a, b, c, ...)
+         *  - 'upperRoman', 'I':    Prefix headings with uppercase Roman numerals (I, II, III, ...)
+         *  - 'lowerRoman', 'i':    Prefix headings with lowercase Roman numerals (i, ii, iii, ...)
          *
          *  You can define different formatter for each heading level:
          *  indexingFormats: {
-         *      'h1': 'upperAlphabet',
-         *      'h2': 'number',
-         *      'h3': 'lowerAlphabet'
+         *      'h1': 'upperAlphabet',  // 'A'
+         *      'h2': 'number',         // '1'
+         *      'h3': 'lowerAlphabet'   // 'a'
          *  }
          *
-         * If you want to set indexing formats for all levels:
-         *  indexingFormats: formatter,
+         * If you want to set indexing formats for levels:
+         *  indexingFormats: formatter
+         *
+         * Example:
+         *      indexingFormats: 'number'   => Prefix all headings by number
+         *      indexingFormats: '1AaIi'    => Prefix 1st level heading by number
+         *                                     Prefix 2nd level heading by uppercase character, and so forth.
          */
         indexingFormats: {}
     };
@@ -145,10 +151,10 @@
                 }
             }
 
-            var $toc         = $('<ul/>').addClass(this.options.rootUlClass)
+            var numberingMap = {},
+                $toc         = $('<ul/>').addClass(this.options.rootUlClass)
                                          .addClass(this.options.ulClass)
-                                         .appendTo(this.$element),
-                numberingMap = {};
+                                         .appendTo(this.$element);
             // Add heading
             if (this.options.heading) {
                 $('<li/>').addClass('toc-heading')
@@ -197,22 +203,23 @@
         /**
          * Generate heading Id
          *
-         * @param {Int} heading
+         * @param {Number} heading
          * @return {String}
          */
         generateHeadingId: function(heading) {
             if (!$(heading).attr('id')) {
-                var id = $(heading).text()
-                    .toLowerCase()
-                    .replace(/\s+|\/|\\/g, '-')
-                    .replace(/á|à|ạ|ả|ã|ă|ắ|ằ|ặ|ẳ|ẵ|â|ấ|ầ|ậ|ẩ|ẫ|ä/g, 'a')
-                    .replace(/đ/g, 'd')
-                    .replace(/é|è|ẹ|ẻ|ẽ|ê|ế|ề|ệ|ể|ễ/g, 'e')
-                    .replace(/í|ì|ị|ỉ|ĩ/g, 'i')
-                    .replace(/ó|ò|ọ|ỏ|õ|ô|ố|ồ|ộ|ổ|ỗ|ơ|ớ|ờ|ợ|ở|ỡ/g, 'o')
-                    .replace(/ú|ù|ụ|ủ|ũ|ư|ứ|ừ|ự|ử|ữ/g, 'u')
-                    .replace(/ý|ỳ|ỵ|ỷ|ỹ/g, 'y')
-                    .replace(/[^a-z0-9-]/g, '');
+                var id = $(heading)
+                                .text()
+                                .toLowerCase()
+                                .replace(/\s+|\/|\\/g, '-')
+                                .replace(/á|à|ạ|ả|ã|ă|ắ|ằ|ặ|ẳ|ẵ|â|ấ|ầ|ậ|ẩ|ẫ|ä/g, 'a')
+                                .replace(/đ/g, 'd')
+                                .replace(/é|è|ẹ|ẻ|ẽ|ê|ế|ề|ệ|ể|ễ/g, 'e')
+                                .replace(/í|ì|ị|ỉ|ĩ/g, 'i')
+                                .replace(/ó|ò|ọ|ỏ|õ|ô|ố|ồ|ộ|ổ|ỗ|ơ|ớ|ờ|ợ|ở|ỡ/g, 'o')
+                                .replace(/ú|ù|ụ|ủ|ũ|ư|ứ|ừ|ự|ử|ữ/g, 'u')
+                                .replace(/ý|ỳ|ỵ|ỷ|ỹ/g, 'y')
+                                .replace(/[^a-z0-9-]/g, '');
 
                 var found = true, counter = 0;
                 while (found) {
@@ -234,7 +241,7 @@
         /**
          * Prepend indexing string to link/heading
          *
-         * @param {Int} index
+         * @param {Number} index
          * @param {HTMLElement} linkElement
          */
         prependIndexing: function(index, linkElement) {
@@ -246,7 +253,7 @@
             }
             var numbering = String($(heading).data('numbering')).split('.'), n = numbering.length, converted = [], j = 0;
             for (var i = 0; i < n; i++) {
-                j      = i + (tagNumber - n);
+                j      = i + (tagNumber - n) + 1;
                 format = this.getIndexingFormat(j);
                 if (format) {
                     converted.push(this.convertIndexing(numbering[i], format));
@@ -263,23 +270,47 @@
         /**
          * Get the indexing format for given heading level
          *
-         * @param {Int} level Can be 1, 2, ..., 6
+         * @param {Number} level Can be 1, 2, ..., 6
          * @return {String} Can be null or one of 'number', 'lowerAlphabet', 'upperAlphabet', 'lowerRoman', 'upperRoman'
          */
         getIndexingFormat: function(level) {
             if ('object' == typeof this.options.indexingFormats) {
                 return this.options.indexingFormats['h' + level] ? this.options.indexingFormats['h' + level] : null;
             }
+
             if ('string' == typeof this.options.indexingFormats) {
-                return this.options.indexingFormats;
+                if (['upperAlphabet', 'lowerAlphabet', 'number', 'upperRoman', 'lowerRoman'].indexOf(this.options.indexingFormats) != -1) {
+                    return this.options.indexingFormats;
+                }
+
+                // indexingFormats defines format for each heading level (1AaIi, 111111, for example)
+                if (this.options.indexingFormats.length < level) {
+                    return null;
+                }
+                switch (this.options.indexingFormats[level - 1]) {
+                    case '1':
+                    case 1:
+                        return 'number';
+                    case 'A':
+                        return 'upperAlphabet';
+                    case 'a':
+                        return 'lowerAlphabet';
+                    case 'I':
+                        return 'upperRoman';
+                    case 'i':
+                        return 'lowerRoman';
+                    default:
+                        return null;
+                }
             }
+
             return null;
         },
 
         /**
          * Format an indexing number in given type
          *
-         * @param {Int} number
+         * @param {Number} number
          * @param {String} type Can be one of supported formats: number, lowerAlphabet, upperAlphabet, lowerRoman, upperRoman
          * @returns {String}
          */
@@ -287,18 +318,24 @@
             var lowerChars = 'abcdefghijklmnopqrstuvwxyz', upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', length = lowerChars.length;
             switch (type) {
                 case 'upperAlphabet':
+                case 'A':
                     return (number > length) ? upperChars[number % length - 1] : upperChars[number - 1];
 
                 case 'lowerAlphabet':
+                case 'a':
                     return (number > length) ? lowerChars[number % length - 1] : lowerChars[number - 1];
 
                 case 'number':
+                case '1':
+                case 1:
                     return number;
 
                 case 'upperRoman':
+                case 'I':
                     return this.convertToRomanNumeral(number);
 
                 case 'lowerRoman':
+                case 'i':
                     return this.convertToRomanNumeral(number).toLowerCase();
 
                 default:
@@ -309,7 +346,7 @@
         /**
          * Convert a number to Roman numeral
          *
-         * @param {Int} number
+         * @param {Number} number
          * @return {String}
          */
         convertToRomanNumeral: function(number) {
